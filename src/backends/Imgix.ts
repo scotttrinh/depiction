@@ -16,26 +16,34 @@ const IMGIX_FORMAT_MAP: {
   'image/webp': 'webp'
 };
 
-function normalizeDensity(transform: Transform): number {
+function normalizeDensity(transform: Transform): number | undefined {
   if (transform.density === undefined) {
-    return 1;
+    return undefined;
   }
 
-  const isWithinRange = transform.density >= 1 && transform.density <= 8;
-
-  return isWithinRange ? transform.density : 1;
+  return transform.density < 1
+    ? 1
+    : transform.density > 8
+    ? 8
+    : transform.density;
 }
 
 function imgixQueryFromTransform(transform: Transform): string {
   const fm: ImgixOutputFormat = IMGIX_FORMAT_MAP[transform.mimeType] || 'jpg';
-  const density: number = normalizeDensity(transform);
+  const density = normalizeDensity(transform);
   const width = transform.width;
 
   const params = new URLSearchParams();
   params.set('fit', 'max');
   params.set('fm', fm);
-  params.set('dpr', String(density));
-  params.set('width', String(width));
+
+  if (density !== undefined) {
+    params.set('dpr', String(density));
+  }
+
+  if (width !== undefined) {
+    params.set('width', String(width));
+  }
 
   return '?' + params.toString();
 }
@@ -52,8 +60,16 @@ function imgixImgSrcFromPairs(
 }
 
 export const ImgixBackend: Backend = {
-  parse(baseUrl: string, transforms: Transform[], fallback: Transform, size?: number) {
-    const descriptorTransformPairs = getDescriptorTransformPairs(transforms, size);
+  parse(
+    baseUrl: string,
+    transforms: Transform[],
+    fallback: Transform,
+    size?: number
+  ) {
+    const descriptorTransformPairs = getDescriptorTransformPairs(
+      transforms,
+      size
+    );
 
     return {
       fallback: {
@@ -61,7 +77,9 @@ export const ImgixBackend: Backend = {
         descriptor: new PixelDensity(1),
         url: fallback.url || baseUrl + imgixQueryFromTransform(fallback)
       },
-      imgSrcs: descriptorTransformPairs.map(imgixImgSrcFromPairs.bind(null, baseUrl))
+      imgSrcs: descriptorTransformPairs.map(
+        imgixImgSrcFromPairs.bind(null, baseUrl)
+      )
     };
   }
-}
+};

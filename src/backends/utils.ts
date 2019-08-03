@@ -18,7 +18,7 @@ function findClosestSize(size: number, transforms: Transform[]): Transform[] {
 
   const differences = transforms.map((transform: Transform) => ({
     ...transform,
-    distance: Math.abs(transform.width - size)
+    distance: Math.abs((transform.width || 0) - size)
   })).sort((a, b) => a.distance - b.distance);
   console.log(differences)
 
@@ -32,7 +32,7 @@ function toPixelDensityTransformPair(transform: Transform): DescriptorTransformP
 }
 
 function toWidthTransformPair(transform: Transform): DescriptorTransformPair {
-  return [new Width(transform.width), transform];
+  return [new Width(transform.width || 0), transform];
 }
 
 export function getDescriptorTransformPairs(

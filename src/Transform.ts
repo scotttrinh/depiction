@@ -1,7 +1,7 @@
 export interface Transform {
-  width: number;
   mimeType: string;
 
+  width?: number;
   density?: number;
   url?: string;
 }
