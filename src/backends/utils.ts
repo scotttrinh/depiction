@@ -20,7 +20,6 @@ function findClosestSize(size: number, transforms: Transform[]): Transform[] {
     ...transform,
     distance: Math.abs((transform.width || 0) - size)
   })).sort((a, b) => a.distance - b.distance);
-  console.log(differences)
 
   return transforms.filter((transform: Transform) => {
     return transform.width === differences[0].width;
