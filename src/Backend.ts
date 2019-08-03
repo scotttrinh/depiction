@@ -11,6 +11,7 @@ export interface Backend {
   parse: (
     baseUrl: string,
     transforms: Transform[],
-    fallback: Transform
+    fallback: Transform,
+    size?: number
   ) => { fallback: ImageSource; imgSrcs: ImageSource[] };
 }

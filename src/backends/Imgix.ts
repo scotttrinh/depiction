@@ -52,8 +52,8 @@ function imgixImgSrcFromPairs(
 }
 
 export const ImgixBackend: Backend = {
-  parse(baseUrl: string, transforms: Transform[], fallback: Transform) {
-    const descriptorTransformPairs = getDescriptorTransformPairs(transforms);
+  parse(baseUrl: string, transforms: Transform[], fallback: Transform, size?: number) {
+    const descriptorTransformPairs = getDescriptorTransformPairs(transforms, size);
 
     return {
       fallback: {

@@ -10,9 +10,10 @@ import { PixelDensity, Descriptor } from '../Descriptor';
 
 function parseWithUrl(
   transforms: TransformWithUrl[],
-  fallback: TransformWithUrl
+  fallback: TransformWithUrl,
+  size?: number
 ) {
-  const descriptorTransformPairs = getDescriptorTransformPairs(transforms) as [
+  const descriptorTransformPairs = getDescriptorTransformPairs(transforms, size) as [
     Descriptor,
     TransformWithUrl
   ][];
@@ -31,9 +32,9 @@ function parseWithUrl(
 }
 
 export const PassthroughBackend: Backend = {
-  parse(_baseUrl: string, transforms: Transform[], fallback: Transform) {
+  parse(_baseUrl: string, transforms: Transform[], fallback: Transform, size?: number) {
     if (isTransformWithUrl(fallback) && isTransformWithUrlArray(transforms)) {
-      return parseWithUrl(transforms, fallback);
+      return parseWithUrl(transforms, fallback, size);
     }
 
     throw new TypeError(
