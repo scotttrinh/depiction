@@ -1,0 +1,52 @@
+{
+  "name": "depiction",
+  "version": "0.0.1",
+  "description": "Depiction",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/scotttrinh/depiction.git"
+  },
+  "keywords": [
+    "image",
+    "srcset",
+    "picture",
+    "responsive"
+  ],
+  "author": "Scott Trinh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/scotttrinh/depiction/issues"
+  },
+  "homepage": "https://github.com/scotttrinh/depiction#readme",
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@storybook/addon-actions": "^5.1.10",
+    "@storybook/addon-links": "^5.1.10",
+    "@storybook/addons": "^5.1.10",
+    "@storybook/react": "^5.1.10",
+    "@testing-library/react": "^8.0.7",
+    "@types/jest": "^24.0.16",
+    "@types/lodash.groupby": "^4.6.6",
+    "@types/react": "^16.8.24",
+    "@types/react-dom": "^16.8.5",
+    "@types/storybook__react": "^4.0.2",
+    "awesome-typescript-loader": "^5.2.1",
+    "babel-loader": "^8.0.6",
+    "jest": "^24.8.0",
+    "prettier": "^1.18.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "typescript": "^3.5.3"
+  },
+  "dependencies": {
+    "@types/lodash.map": "^4.6.13",
+    "lodash.groupby": "^4.6.0",
+    "lodash.map": "^4.6.0"
+  }
+}

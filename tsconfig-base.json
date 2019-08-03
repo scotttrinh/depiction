@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "jsx": "react",
+    "strict": true,
+    "lib": ["DOM", "ES2016", "ES2017"],
+    "moduleResolution": "node",
+    "target": "ES2017",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true
+  }
+}
