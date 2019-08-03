@@ -1,10 +1,9 @@
 import React from 'react';
-import groupBy from 'lodash.groupby';
-import toPairs from 'lodash.topairs';
 import { useBackend } from './BackendContext';
 import { ImageSource } from './Backend';
 import { Source } from './Source';
 import { Transform } from './Transform';
+import { rankMimeTypes } from './rank-mime-types';
 
 interface OwnProps {
   baseUrl: string;
@@ -29,7 +28,7 @@ export function Depiction(props: OwnProps) {
     props.fallback,
     props.size
   );
-  const sourcesByMimeType = rankMimeTypes(groupBy(imgSrcs, 'mimeType'));
+  const sourcesByMimeType = rankMimeTypes(imgSrcs);
 
   return (
     <picture>
@@ -43,19 +42,3 @@ export function Depiction(props: OwnProps) {
   );
 }
 
-const imageMimeTypes = [
-  'image/webp',
-  'image/jp2',
-  'image/jxr',
-  'image/png',
-  'image/jpg',
-  'image/gif'
-];
-
-function rankMimeTypes<A>(byMimeType: {
-  [mimeType: string]: A;
-}): [string, A][] {
-  return toPairs(byMimeType).sort(
-    ([a], [b]) => imageMimeTypes.indexOf(b) - imageMimeTypes.indexOf(a)
-  );
-}
