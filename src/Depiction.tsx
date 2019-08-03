@@ -1,6 +1,6 @@
 import React from 'react';
-import map from 'lodash.map';
 import groupBy from 'lodash.groupby';
+import toPairs from 'lodash.topairs';
 import { useBackend } from './BackendContext';
 import { ImageSource } from './Backend';
 import { Source } from './Source';
@@ -12,10 +12,6 @@ interface OwnProps {
   fallback: Transform;
 }
 
-function renderSource(imgSrcs: ImageSource[], mimeType: string) {
-  return <Source imgSrcs={imgSrcs} mimeType={mimeType} />;
-}
-
 export function Depiction(props: OwnProps) {
   const backend = useBackend();
   const { fallback, imgSrcs } = backend.parse(
@@ -23,11 +19,33 @@ export function Depiction(props: OwnProps) {
     props.transforms,
     props.fallback
   );
+  const sourcesByMimeType = rankMimeTypes(groupBy(imgSrcs, 'mimeType'));
 
   return (
     <picture>
-      {map(groupBy(imgSrcs, 'mimeType'), renderSource)}
+      {sourcesByMimeType.map(renderSource)}
       <img src={fallback.url} />
     </picture>
+  );
+}
+
+function renderSource([mimeType, imgSrcs]: [string, ImageSource[]]) {
+  return <Source imgSrcs={imgSrcs} mimeType={mimeType} />;
+}
+
+const imageMimeTypes = [
+  'image/webp',
+  'image/jp2',
+  'image/jxr',
+  'image/png',
+  'image/jpg',
+  'image/gif'
+];
+
+function rankMimeTypes<A>(byMimeType: {
+  [mimeType: string]: A;
+}): [string, A][] {
+  return toPairs(byMimeType).sort(
+    ([a], [b]) => imageMimeTypes.indexOf(b) - imageMimeTypes.indexOf(a)
   );
 }
