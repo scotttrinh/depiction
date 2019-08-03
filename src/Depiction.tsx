@@ -7,11 +7,12 @@ import { Source } from './Source';
 import { Transform } from './Transform';
 
 interface OwnProps {
-  className?: string;
-  styles?: React.CSSProperties;
   baseUrl: string;
   transforms: Transform[];
   fallback: Transform;
+
+  className?: string;
+  styles?: React.CSSProperties;
   size?: number;
 }
 
